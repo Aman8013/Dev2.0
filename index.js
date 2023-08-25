@@ -28,3 +28,4 @@ app.get("/register", (req, res) => {
 app.listen(PORT, () => {
     console.log(`server is running at port ${PORT}`);
 })
+
