@@ -32,9 +32,21 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
 // Blogs end points goes here
 // /blog post
 app.post('/blog', (req, res) => {
-
+    var blog =new Blog({
+        body: req.body.body,
+        head: req.body.head
+    })
+    Blog.insert(blog,function(err){
+        if(err){
+            console.log(err);
+            res.json({result:false});
+        }else{
+            console.log("Successfully saved");
+            res.json({result: true});
+        }
+    })
+    
 })
-
 // get all blogs
 app.get('/blog', (req, res) => {
 
