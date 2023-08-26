@@ -24,5 +24,4 @@ blogSchema.index({
     head: "text",
     authorName: "text"
 })
-
 export default mongoose.model('Blog', blogSchema);

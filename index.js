@@ -13,7 +13,7 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
     console.log('database connected');
 }).catch(err => {
     console.log(err);
-})
+});
 
 
 // app.get("/", (req, res) => {
@@ -32,39 +32,74 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
 
 // Blogs end points goes here
 // /blog post
-app.post('/blog', (req, res) => {
-    var blog =new Blog({
+app.post('/api/blog', (req, res) => {
+    var blog = new Blog({
         body: req.body.body,
         head: req.body.head
     })
-    Blog.insert(blog,function(err){
-        if(err){
+    Blog.insert(blog, function (err) {
+        if (err) {
             console.log(err);
-            res.json({result:false});
-        }else{
+            res.json({ result: false });
+        } else {
             console.log("Successfully saved");
-            res.json({result: true});
+            res.json({ result: true });
         }
     })
-    
+
 })
 // get all blogs
-app.get('/blog', (req, res) => {
-
+app.get('/api/blog', (req, res) => {
+    Blog.find({}, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.json({});
+        } else {
+            res.json(result);
+        }
+    });
 })
 
 // /blog/id get
-app.get('/blog/:id', (req, res) => {
+app.get('/api/blog/:id', async (req, res) => {
+    try {
+        const itemId = parseInt(req.params.id);
+        const foundItem = await Item.findById(itemId);
+
+        if (!foundItem) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+        return res.status(200).json(foundItem);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 
 })
 
 // /blog/id put
-app.patch('/blog/:id/edit', (req, res) => {
+app.patch('/api/blog/:id', async (req, res) => {
+    try {
+        const itemId = req.params.id;
+        const updateFields = req.body; // Assuming the request body contains fields to update
 
+        const updatedItem = await Item.findByIdAndUpdate(itemId, updateFields, {
+            new: true, // Return the updated document
+        });
+
+        if (!updatedItem) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        return res.status(200).json(updatedItem);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 })
 
 // /blog/id delete
-app.delete('/blog/:id', (req, res) => {
+app.delete('/api/blog/:id', (req, res) => {
 
 })
 
