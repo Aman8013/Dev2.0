@@ -16,9 +16,7 @@ const blogSchema = mongoose.Schema({
     head: {
         type: String,
         required: true,
-    },
-
-    // likes: {type:Number, default: 0}
+    }
 });
 
 blogSchema.index({
@@ -27,4 +25,4 @@ blogSchema.index({
     authorName: "text"
 })
 
-module.exports = mongoose.model('Blog', blogSchema);
+export default mongoose.model('Blog', blogSchema);

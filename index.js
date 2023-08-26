@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import Blog from "../models/Blog"
 
 const app = express();
 const DB = process.env.DB;
