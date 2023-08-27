@@ -56,22 +56,30 @@ app.post('/api/blog', async(req, res) => {
 
 })
 // get all blogs
-app.get('/api/blog', (req, res) => {
-    Blog.find({}, (err, result) => {
+app.get('/api/blog', async(req, res) => {
+    /*Blog.find({}, (err, result) => {
         if (err) {
             console.log(err);
             res.json({});
         } else {
             res.json(result);
         }
-    });
+    });*/
+     try {
+        // Use the model to find all items
+        const items = await Blog.find();
+    
+        res.json(items);
+      } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+      }
 })
 
 // /blog/id get
 app.get('/api/blog/:id', async (req, res) => {
     try {
-        const itemId = parseInt(req.params.id);
-        const foundItem = await Item.findById(itemId);
+        const itemId = req.params.id;
+        const foundItem = await Blog.findById(itemId);
 
         if (!foundItem) {
             return res.status(404).json({ message: 'Item not found' });
@@ -90,7 +98,7 @@ app.patch('/api/blog/:id', async (req, res) => {
         const itemId = req.params.id;
         const updateFields = req.body; // Assuming the request body contains fields to update
 
-        const updatedItem = await Item.findByIdAndUpdate(itemId, updateFields, {
+        const updatedItem = await Blog.findByIdAndUpdate(itemId, updateFields, {
             new: true, // Return the updated document
         });
 
