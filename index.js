@@ -10,7 +10,7 @@ const DB = process.env.DB;
 const PORT = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
+mongoose.connect(DB, { useNewUrlParser: true,useUnifiedTopology: true}).then(() => {
     console.log('database connected');
 }).catch(err => {
     console.log(err);
@@ -18,6 +18,7 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
 
 app.use(cors())
 
+app.use(express.json());
 // app.get("/", (req, res) => {
 //     res.send('<h1>hi</h1>');
 // })
@@ -36,19 +37,21 @@ app.use(cors())
 // /blog post
 app.post('/api/blog', async(req, res) => {
     try {
-        const { head, body } = req.body;
-    
+        const head = req.body.head;
+        const body = req.body.body;
+        const id=new mongoose.mongo.ObjectId();
         // Create a new item using the model
-        const newItem = new Item({
-          head,
-          body,
+        const newItem = new Blog({
+          head:head,
+          body:body,
+          author:id
         });
         // Save the new item to the database
         await newItem.save();
-    
         res.json({ message: 'Item created successfully' });
       } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
+        console.log("error found");
       }
 
 })
@@ -103,7 +106,21 @@ app.patch('/api/blog/:id', async (req, res) => {
 })
 
 // /blog/id delete
-app.delete('/api/blog/:id', (req, res) => {
+app.delete('/api/blog/:id', async(req, res) => {
+    try {
+        const itemId = req.params.id;
+    
+        // Use the model to find and remove the item by its ID
+        const deletedItem = await Blog.findByIdAndDelete(itemId);
+    
+        if (!deletedItem) {
+          return res.status(404).json({ message: 'Item not found' });
+        }
+    
+        res.json({ message: 'Item deleted successfully' });
+      } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+      }
 
 })
 
