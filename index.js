@@ -3,6 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import Blog from "./models/Blog.js"
+import cors from "cors"
 
 const app = express();
 const DB = process.env.DB;
@@ -15,6 +16,7 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
     console.log(err);
 });
 
+app.use(cors())
 
 // app.get("/", (req, res) => {
 //     res.send('<h1>hi</h1>');
