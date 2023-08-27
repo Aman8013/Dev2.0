@@ -34,20 +34,23 @@ app.use(cors())
 
 // Blogs end points goes here
 // /blog post
-app.post('/api/blog', (req, res) => {
-    var blog = new Blog({
-        body: req.body.body,
-        head: req.body.head
-    })
-    Blog.insert(blog, function (err) {
-        if (err) {
-            console.log(err);
-            res.json({ result: false });
-        } else {
-            console.log("Successfully saved");
-            res.json({ result: true });
-        }
-    })
+app.post('/api/blog', async(req, res) => {
+    try {
+        const { head, body} = req.body;
+    
+        // Create a new item using the model
+        const newItem = new Blog({
+          name,
+          description,
+        });
+    
+        // Save the new item to the database
+        await newItem.save();
+    
+        res.json({ message: 'Item created successfully' });
+      } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+      }
 
 })
 // get all blogs
