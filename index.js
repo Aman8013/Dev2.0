@@ -36,14 +36,13 @@ app.use(cors())
 // /blog post
 app.post('/api/blog', async(req, res) => {
     try {
-        const { head, body} = req.body;
+        const { head, body } = req.body;
     
         // Create a new item using the model
-        const newItem = new Blog({
-          name,
-          description,
+        const newItem = new Item({
+          head,
+          body,
         });
-    
         // Save the new item to the database
         await newItem.save();
     
