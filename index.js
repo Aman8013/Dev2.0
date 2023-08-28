@@ -7,11 +7,13 @@ import cors from "cors"
 
 //route import
 import Broute from "./routes/Broute.js"
+import Aroute from "./routes/Aroute.js"
 
 const app = express();
 const DB = process.env.DB;
 const PORT = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
     console.log('database connected');
@@ -25,7 +27,7 @@ app.use(express.json());
 
 
 app.use('/api/blog', Broute);
-
+app.use("/api/user", Aroute);
 
 
 app.listen(PORT, () => {
