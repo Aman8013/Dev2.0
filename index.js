@@ -5,20 +5,26 @@ import mongoose from "mongoose";
 import Blog from "./models/Blog.js"
 import cors from "cors"
 
+//route import
+import Broute from "./routes/Broute.js"
+
 const app = express();
 const DB = process.env.DB;
 const PORT = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(DB, { useNewUrlParser: true,useUnifiedTopology: true}).then(() => {
+mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
     console.log('database connected');
 }).catch(err => {
     console.log(err);
 });
 
 app.use(cors())
-
 app.use(express.json());
+
+
+
+app.use('/api/blog', Broute);
 // app.get("/", (req, res) => {
 //     res.send('<h1>hi</h1>');
 // })
@@ -35,28 +41,28 @@ app.use(express.json());
 
 // Blogs end points goes here
 // /blog post
-app.post('/api/blog', async(req, res) => {
+app.post('/api/blog', async (req, res) => {
     try {
         const head = req.body.head;
         const body = req.body.body;
-        const id=new mongoose.mongo.ObjectId();
+        const id = new mongoose.mongo.ObjectId();
         // Create a new item using the model
         const newItem = new Blog({
-          head:head,
-          body:body,
-          author:id
+            head: head,
+            body: body,
+            author: id
         });
         // Save the new item to the database
         await newItem.save();
         res.json({ message: 'Item created successfully' });
-      } catch (error) {
+    } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
         console.log("error found");
-      }
+    }
 
 })
 // get all blogs
-app.get('/api/blog', async(req, res) => {
+app.get('/api/blog', async (req, res) => {
     /*Blog.find({}, (err, result) => {
         if (err) {
             console.log(err);
@@ -65,14 +71,14 @@ app.get('/api/blog', async(req, res) => {
             res.json(result);
         }
     });*/
-     try {
+    try {
         // Use the model to find all items
         const items = await Blog.find();
-    
+
         res.json(items);
-      } catch (error) {
+    } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
-      }
+    }
 })
 
 // /blog/id get
@@ -114,21 +120,21 @@ app.patch('/api/blog/:id', async (req, res) => {
 })
 
 // /blog/id delete
-app.delete('/api/blog/:id', async(req, res) => {
+app.delete('/api/blog/:id', async (req, res) => {
     try {
         const itemId = req.params.id;
-    
+
         // Use the model to find and remove the item by its ID
         const deletedItem = await Blog.findByIdAndDelete(itemId);
-    
+
         if (!deletedItem) {
-          return res.status(404).json({ message: 'Item not found' });
+            return res.status(404).json({ message: 'Item not found' });
         }
-    
+
         res.json({ message: 'Item deleted successfully' });
-      } catch (error) {
+    } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
-      }
+    }
 
 })
 
