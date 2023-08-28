@@ -13,8 +13,8 @@ const Signin = () => {
 
     return (
         <>
-            <Row justify='center'>
-                <Col span={10}>
+            <Row justify='center' align="middle" style={{ height: '80vh' }}>
+                <Col md={10} span={22}>
                     <Card
                         title="Signin"
                     >

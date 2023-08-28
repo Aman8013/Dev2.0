@@ -5,20 +5,20 @@ const Register = () => {
     const email = useRef();
     const fname = useRef();
     const password = useRef();
-    const cpassword = useRef();
 
     const HandleRegister = (e) => {
         e.preventDefault()
         console.log(email.current.input.value)
         console.log(password.current.input.value)
+        console.log(fname.current.input.value)
     }
 
     return (
         <>
-            <Row justify='center'>
-                <Col span={10}>
+            <Row justify='center' align="middle" style={{height: '80vh'}}>
+                <Col md={10} span={22}>
                     <Card
-                        title="Signin"
+                        title="Register"
                     >
                         <Form
                             name="basic"
@@ -95,7 +95,7 @@ const Register = () => {
                                     }),
                                 ]}
                             >
-                                <Input.Password />
+                                <Input.Password/>
                             </Form.Item>
 
                             <Form.Item
