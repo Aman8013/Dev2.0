@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { getAllBlogs, newBlog, getBlog, deleteBlog, editBlog } from "../controller/Bcontrol"
+import { getAllBlogs, newBlog, getBlog, deleteBlog, editBlog } from "../controller/Bcontrol.js"
 
 //get all blogs
 router.get("/", getAllBlogs);
