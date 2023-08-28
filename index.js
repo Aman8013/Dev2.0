@@ -2,7 +2,6 @@ import 'dotenv/config'
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import Blog from "./models/Blog.js"
 import cors from "cors"
 
 //route import
