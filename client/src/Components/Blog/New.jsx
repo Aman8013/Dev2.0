@@ -8,11 +8,6 @@ import {
     Form,
     Input,
     Card,
-    Radio,
-    Select,
-    Slider,
-    Switch,
-    TreeSelect,
     Upload,
     Space,
 } from 'antd';
@@ -41,7 +36,7 @@ const New = () => {
 
     return (
         <>
-            <ReactPlayer url='https://www.twitch.tv/videos/1909175634' playing={true} />
+            {/* <ReactPlayer url='https://www.twitch.tv/videos/1909175634' playing={true} /> */}
             <Row justify='center' style={{ height: '100vh', marginTop: '2rem' }}>
                 <Col md={12} span={22}>
                     <Card

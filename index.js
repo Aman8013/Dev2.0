@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors"
 
+// create a middleware isAuthenticated that checks whether a User is logged in before entering using certain endpoints
+
 //route import
 import Broute from "./routes/Broute.js"
 import Aroute from "./routes/Aroute.js"
