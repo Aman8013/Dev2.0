@@ -1,13 +1,13 @@
 
 import Blog from "../models/Blog.js"
 //controller function to get all blogs
-const getAllBlogs = async (req, res) =>{
-     try {  
-            // Use the model to find all items
+const getAllBlogs = async (req, res) => {
+    try {
+        // Use the model to find all items
         const items = await Blog.find()
         res.json(items);
-      } catch (error) {
-        res.status(500).json({ error: 'An error occurred' });
+    } catch (error) {
+        res.status(500).json({ result: true, error: 'An error occurred' });
     }
 };
 
@@ -26,9 +26,9 @@ const newBlog = async (req, res) => {
         });
         // Save the new item to the database
         await newItem.save();
-        res.json({ message: 'Item created successfully' });
+        res.json({ result: true, message: 'Item created successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred' });
+        res.status(500).json({ result: false, error: 'An error occurred' });
         console.log("error found");
     }
 }
@@ -40,19 +40,19 @@ const getBlog = async (req, res) => {
         const foundItem = await Blog.findById(itemId);
 
         if (!foundItem) {
-            return res.status(404).json({ message: 'Item not found' });
+            return res.status(404).json({ result: false, resmessage: 'Item not found' });
         }
         return res.status(200).json(foundItem);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ result: false, message: 'Internal server error' });
     }
 
 }
 
 //controller function to update or edit blog
 
-const editBlog=async (req, res) => {
+const editBlog = async (req, res) => {
     try {
         const itemId = req.params.id;
         const updateFields = req.body; // Assuming the request body contains fields to update
@@ -62,19 +62,19 @@ const editBlog=async (req, res) => {
         });
 
         if (!updatedItem) {
-            return res.status(404).json({ message: 'Item not found' });
+            return res.status(404).json({ result: false, message: 'Item not found' });
         }
 
         return res.status(200).json(updatedItem);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ result: false, message: 'Internal server error' });
     }
 }
 
 //controller function to delete blog
 
-const deleteBlog=async (req, res) => {
+const deleteBlog = async (req, res) => {
     try {
         const itemId = req.params.id;
 
@@ -82,12 +82,12 @@ const deleteBlog=async (req, res) => {
         const deletedItem = await Blog.findByIdAndDelete(itemId);
 
         if (!deletedItem) {
-            return res.status(404).json({ message: 'Item not found' });
+            return res.status(404).json({ result: false, message: 'Item not found' });
         }
 
-        res.json({ message: 'Item deleted successfully' });
+        res.json({ result: true, message: 'Item deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred' });
+        res.status(500).json({ result: false, error: 'An error occurred' });
     }
 }
-export {getAllBlogs, newBlog, getBlog, deleteBlog, editBlog };
+export { getAllBlogs, newBlog, getBlog, deleteBlog, editBlog };
